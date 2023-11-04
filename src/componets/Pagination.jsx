@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Pagination = ({
   onPageChange,
   currentPage,
   blogdata,
-  pageSize
+  pageSize,
+  setData
 }) => {
 
   const totalPages = Math.ceil(blogdata.length / pageSize);
+  const [startIndex, setStartIndex] = useState(0)
+  const [endIndex, setEndIndex] = useState(12)
+
+  const nextPage = () => {
+    setStartIndex(prev => prev + pageSize)
+    setEndIndex(prev => prev + pageSize)
+    setData(blogdata.slice(startIndex, endIndex))
+  }
 
   const renderPaginationLinks = () => {
     return Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
@@ -40,7 +49,7 @@ const Pagination = ({
         {generateNumberLinks(1, 12)}
         {renderPaginationLinks()}
         <li>
-          <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          <button onClick={nextPage} disabled={currentPage === totalPages}>
             Next
           </button>
         </li>

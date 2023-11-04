@@ -5,8 +5,8 @@ import Navbar from './componets/Navbar';
 function App() {
   return (
     <>
-     <Navbar/>
-       <Outlet/>
+      <Navbar />
+      <Outlet />
     </>
   );
 }
