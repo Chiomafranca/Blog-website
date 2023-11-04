@@ -10,7 +10,7 @@ const Banner = ({ children, text }) => {
           sequence={[
             `Welcome to our ${text}`,
             1000,
-            `Welcome to our DesignCH`,
+            `Welcome to DesignCH`,
             1000,
           ]}
           wrapper="h1"
