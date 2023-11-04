@@ -4,7 +4,7 @@ import { TypeAnimation } from 'react-type-animation';
 const Banner = ({ children, text }) => {
   
   return (
-    <div className='px-4 py-32 bg-gray-800  mx-auto'>
+    <div className='px-4 py-32 bg-gray-800 h-96 sm:h-auto mx-auto'>
       <div className=' text-neutral-200 text-center'>
         <TypeAnimation 
           sequence={[
@@ -14,7 +14,7 @@ const Banner = ({ children, text }) => {
             1000,
           ]}
           wrapper="h1"
-          speed={50}
+          speed={75}
           className='text-5xl lg:text-7xl  font-bold mb-5'
           repeat={Infinity}
         />

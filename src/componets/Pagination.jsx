@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-const Pagination = ({ blogdata, setData, scrolToTop }) => {
+const Pagination = ({ blogdata, setData }) => {
 
   const pageSize = 12
   const totalPages = Math.ceil(blogdata.length / pageSize);
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(12)
   const [currentPage, setCurrentPage] = useState(1)
+
+  const scrolToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 
   useEffect(() => {
     setData(blogdata.slice(startIndex, endIndex))
