@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Pagination = ({ blogdata, setData }) => {
+const Pagination = ({ blogdata, setData, scrolToTop }) => {
 
   const pageSize = 12
   const totalPages = Math.ceil(blogdata.length / pageSize);
@@ -12,13 +12,6 @@ const Pagination = ({ blogdata, setData }) => {
     setData(blogdata.slice(startIndex, endIndex))
     scrolToTop()
   }, [endIndex, startIndex])
-
-  const scrolToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
-  }
 
   const nextPage = () => {
     if (currentPage < totalPages) {
