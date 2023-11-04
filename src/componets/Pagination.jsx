@@ -1,55 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Pagination = ({
-  onPageChange,
-  currentPage,
-  blogdata,
-  pageSize,
-  setData
-}) => {
+const Pagination = ({ blogdata, setData }) => {
 
+  const pageSize = 12
   const totalPages = Math.ceil(blogdata.length / pageSize);
   const [startIndex, setStartIndex] = useState(0)
   const [endIndex, setEndIndex] = useState(12)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    setData(blogdata.slice(startIndex, endIndex))
+    scrolToTop()
+  }, [endIndex, startIndex])
+
+  const scrolToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
 
   const nextPage = () => {
-    setStartIndex(prev => prev + pageSize)
-    setEndIndex(prev => prev + pageSize)
-    setData(blogdata.slice(startIndex, endIndex))
+    if (currentPage < totalPages) {
+      setCurrentPage(p => p + 1)
+      setStartIndex(prev => prev + pageSize)
+      setEndIndex(prev => prev + pageSize)
+    } else if (currentPage === totalPages) {
+      setCurrentPage(totalPages)
+      setStartIndex(prev => prev + pageSize)
+      setEndIndex(prev => prev + pageSize)
+    }
+  }
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(p => p - 1)
+      setStartIndex(prev => prev - pageSize)
+      setEndIndex(prev => prev - pageSize)
+    } else if (currentPage === 1) {
+      setCurrentPage(1)
+      setStartIndex(prev => prev - pageSize)
+      setEndIndex(prev => prev - pageSize)
+    }
+  }
+
+  const onPageChange = (number) => {
+    setCurrentPage(number)
+    setEndIndex(number * pageSize)
+    setStartIndex((number - 1) * pageSize)
   }
 
   const renderPaginationLinks = () => {
     return Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
       <li key={pageNumber}>
-        <a href="#" onClick={() => onPageChange(pageNumber)}>{pageNumber}</a>
+        <button className={currentPage === pageNumber ? "bg-gray-700 text-white px-3 py-1 rounded" : ""} onClick={() => onPageChange(pageNumber)}>{pageNumber}</button>
       </li>
     ));
   }
 
-  const generateNumberLinks = (start, end) => {
-    const numberLinks = [];
-    for (let i = start; i <= end; i++) {
-      numberLinks.push(
-        <li key={i} className={i === currentPage ? "activePagination" : ""}>
-          <a href="#" onClick={() => onPageChange(i)}>{i}</a>
-        </li>
-      );
-    }
-    return numberLinks;
-  }
-
   return (
     <div>
-      <ul>
+      <ul className={"flex gap-3 justify-center items-center my-5"}>
         <li>
-          <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
+          <button className={"disabled:opacity-50"} onClick={prevPage} disabled={currentPage === 1}>
             Previous
           </button>
         </li>
-        {generateNumberLinks(1, 12)}
+        {/* {generateNumberLinks(1, 12)} */}
         {renderPaginationLinks()}
         <li>
-          <button onClick={nextPage} disabled={currentPage === totalPages}>
+          <button className={"disabled:opacity-50"} onClick={nextPage} disabled={currentPage === totalPages}>
             Next
           </button>
         </li>

@@ -45,16 +45,11 @@ const BlogsPage = () => {
       <div>
         <BlogCard
           blogdata={data}
-          currentPage={currentPage}
-          selectedCategory={selectedCategory}
-          pageSize={pageSize}
         />
       </div>
       {/* Pagination section */}
       <div>
         <Pagination
-          onPageChange={handlePageChange}
-          currentPage={currentPage}
           blogdata={blogdata}
           setData={setData}
         />
